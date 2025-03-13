@@ -1,0 +1,14 @@
+name: ChatManager
+version: '${project.version}'
+main: me.jqrtox.chatmanager.ChatManager
+api-version: '1.21'
+commands:
+  msg:
+    aliases:
+      - message
+  chatcolor:
+    aliases:
+      - chatcolour
+      - chatcolors
+      - chatcolours
+
