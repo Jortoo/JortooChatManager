@@ -2,11 +2,16 @@ package me.jqrtox.chatmanager.commands;
 
 import me.jqrtox.chatmanager.data.ChatColorData;
 import me.jqrtox.chatmanager.events.PlayerData;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import poa.poalib.Messages.Messages;
 
 import java.util.Map;
 
@@ -21,10 +26,23 @@ public class ChatColor implements CommandExecutor {
             player.sendRichMessage("<red>/Chatcolor <argument 1>");
             return false;
         }
+
+        MiniMessage mm = MiniMessage.miniMessage();
+
         if (args[0].equalsIgnoreCase("Colors") || args[0].equalsIgnoreCase("Colours")) {
+
             player.sendRichMessage("<dark_purple><bold>Chatcolors:<reset>");
+
             for (Map.Entry<String, String> entry : ChatColorData.colours.entrySet()) {
-                player.sendRichMessage("<dark_gray> - " + entry.getValue() + entry.getKey());
+
+                String colorCode = entry.getValue();
+                String colorName = entry.getKey();
+
+                Component component = mm.deserialize("<dark_gray> - " + colorCode + colorName + " <gray>(" + Messages.essentialsToMinimessage("click!") + ")")
+                        .clickEvent(ClickEvent.runCommand("/chatcolor " + colorName))
+                        .hoverEvent(HoverEvent.showText(Component.text("Click to select this chat color")));
+
+                player.sendMessage(component);
 
             }
             return false;
