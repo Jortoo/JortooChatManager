@@ -12,8 +12,12 @@ import org.bukkit.event.Listener;
 import poa.poalib.LuckPerms.LuckPerm;
 import poa.poalib.Messages.Messages;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class ChatFormat implements Listener {
 
+    private static HashMap<UUID, Long> chatCooldowns = new HashMap<>();
 
     @EventHandler
     public void onChat(AsyncChatEvent event) {
@@ -33,24 +37,46 @@ public class ChatFormat implements Listener {
             return;
 
         }
+        if (chatCooldowns.containsKey(player.getUniqueId())) {
+
+            long timeNow = System.currentTimeMillis();
+            long lastChatTime = chatCooldowns.get(player.getUniqueId());
+            double difference = timeNow - lastChatTime;
+            double differenceSeconds = difference / 1000;
+
+            if (differenceSeconds < 1){
+                player.sendRichMessage("<dark_gray>[<yellow><bold>ChatCooldown</bold><dark_gray>] <gray>▸ <red>You have to wait before chatting again! <gray>(" + String.format("%.2f", 1 - differenceSeconds) + "s)");
+                event.setCancelled(true);
+                return;
+            }
+
+        }
+        if (!player.hasPermission("staff.cooldown.bypass")) {
+
+            long timeNow = System.currentTimeMillis();
+
+            chatCooldowns.put(player.getUniqueId(), timeNow);
+
+        }
         if (prefix == null) {
             prefix = "";
         }
 
-        String serialize = PlainTextComponentSerializer.plainText().serialize(event.message());
+        String plainTextPrefix = PlainTextComponentSerializer.plainText().serialize(event.message());
         PlayerData playerData = PlayerData.getPlayerData(player.getUniqueId(), true);
         String chatColor = playerData.getChatColor();
 
         if (playerData.getTag() != null) {
+
             String getTag = playerData.getTag();
+
             tag = "<dark_gray>[" + Messages.essentialsToMinimessage(getTag) + "<reset><dark_gray>]";
-            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " " + tag + " <gray>▸ " + chatColor + "<message>", Placeholder.unparsed("message", serialize)));
+            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " " + tag + " <gray>▸ " + chatColor + "<message>", Placeholder.unparsed("message", plainTextPrefix)));
 
         }
         else {
-            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " <gray>▸ " + chatColor + "<message>", Placeholder.unparsed("message", serialize)));
+            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " <gray>▸ " + chatColor + "<message>", Placeholder.unparsed("message", plainTextPrefix)));
         }
-
         event.renderer((sender, displayName, inputMessage, viewingPlayer) -> event.message());
     }
 

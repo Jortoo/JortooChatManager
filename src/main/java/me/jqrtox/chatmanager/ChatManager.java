@@ -20,8 +20,7 @@ public final class ChatManager extends JavaPlugin {
 
         saveDefaultConfig();
 
-        Logger logger = Logger.getLogger("ChatManager");
-        logger.info("The plugin loaded successfully");
+        getServer().getLogger().info("The plugin loaded successfully");
 
         getCommand("msg").setExecutor(new MessageCommand());
         getCommand("chatcolor").setExecutor(new ChatColor());
