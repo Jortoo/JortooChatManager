@@ -28,15 +28,19 @@ public class StaffChat implements CommandExecutor {
         if (args.length == 0) {
 
 
-            if (staffChatToggled.contains(player.getUniqueId())) {
-                staffChatToggled.remove(player.getUniqueId());
+            UUID uniqueId = player.getUniqueId();
+            if (staffChatToggled.contains(uniqueId)) {
+                staffChatToggled.remove(uniqueId);
                 player.sendRichMessage(staffChatPrefix + "You have <red>Disabled <white>staff chat!");
                 player.playSound(player, Sound.UI_BUTTON_CLICK, 1L, 1L);
                 return false;
             }
             else {
-                staffChatToggled.add(player.getUniqueId());
-                player.sendRichMessage(staffChatPrefix + "You have <green>Enabled <white>staff chat!'");
+                if (AdminChat.adminChatToggled.contains(uniqueId)) {
+                    AdminChat.adminChatToggled.remove(uniqueId);
+                }
+                staffChatToggled.add(uniqueId);
+                player.sendRichMessage(staffChatPrefix + "You have <green>Enabled <white>staff chat!");
                 player.playSound(player, Sound.UI_BUTTON_CLICK, 1L, 1L);
                 return false;
             }
@@ -58,6 +62,6 @@ public class StaffChat implements CommandExecutor {
 
         }
 
-        return false;
+        return true;
     }
 }

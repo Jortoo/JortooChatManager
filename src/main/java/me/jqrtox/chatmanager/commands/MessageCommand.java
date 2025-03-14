@@ -42,6 +42,6 @@ public class MessageCommand implements CommandExecutor {
         receiver.sendRichMessage("<aqua>From " + player.getName() + ": <white>" + join);
         player.sendRichMessage("<aqua>To " + receiver.getName() + ": <white>" + join);
 
-        return false;
+        return true;
     }
 }

@@ -23,6 +23,6 @@ public class EraseTag implements CommandExecutor {
         PlayerData.getPlayerData(player.getUniqueId(), true).setTag(null);
         player.sendRichMessage("<red>You have deleted your tag");
 
-        return false;
+        return true;
     }
 }

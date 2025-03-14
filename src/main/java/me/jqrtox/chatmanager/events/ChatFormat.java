@@ -1,6 +1,7 @@
 package me.jqrtox.chatmanager.events;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.jqrtox.chatmanager.commands.AdminChat;
 import me.jqrtox.chatmanager.commands.StaffChat;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -26,7 +27,8 @@ public class ChatFormat implements Listener {
         String prefix = LuckPerm.getPrefix(player);
         String tag = null;
 
-        if (StaffChat.staffChatToggled.contains(player.getUniqueId())) {
+        UUID uniqueId = player.getUniqueId();
+        if (StaffChat.staffChatToggled.contains(uniqueId)) {
 
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 if (onlinePlayer.hasPermission("staff.chat")) {
@@ -37,10 +39,22 @@ public class ChatFormat implements Listener {
             return;
 
         }
-        if (chatCooldowns.containsKey(player.getUniqueId())) {
+        if (AdminChat.adminChatToggled.contains(uniqueId)) {
+
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (onlinePlayer.hasPermission("admin.chat")) {
+                    onlinePlayer.sendRichMessage(AdminChat.adminChatPrefix + "<yellow>" + player.getName() + ": " + "<white>" + MiniMessage.miniMessage().serialize(event.message()));
+                }
+            }
+            event.setCancelled(true);
+            return;
+
+        }
+
+        if (chatCooldowns.containsKey(uniqueId)) {
 
             long timeNow = System.currentTimeMillis();
-            long lastChatTime = chatCooldowns.get(player.getUniqueId());
+            long lastChatTime = chatCooldowns.get(uniqueId);
             double difference = timeNow - lastChatTime;
             double differenceSeconds = difference / 1000;
 
@@ -55,7 +69,7 @@ public class ChatFormat implements Listener {
 
             long timeNow = System.currentTimeMillis();
 
-            chatCooldowns.put(player.getUniqueId(), timeNow);
+            chatCooldowns.put(uniqueId, timeNow);
 
         }
         if (prefix == null) {
@@ -63,7 +77,7 @@ public class ChatFormat implements Listener {
         }
 
         String plainTextPrefix = PlainTextComponentSerializer.plainText().serialize(event.message());
-        PlayerData playerData = PlayerData.getPlayerData(player.getUniqueId(), true);
+        PlayerData playerData = PlayerData.getPlayerData(uniqueId, true);
         String chatColor = playerData.getChatColor();
 
         if (playerData.getTag() != null) {

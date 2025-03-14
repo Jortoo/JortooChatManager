@@ -27,6 +27,7 @@ public final class ChatManager extends JavaPlugin {
         getCommand("settag").setExecutor(new CustomTag());
         getCommand("erasetag").setExecutor(new EraseTag());
         getCommand("staffchat").setExecutor(new StaffChat());
+        getCommand("adminchat").setExecutor(new AdminChat());
 
         getServer().getPluginManager().registerEvents(new ChatFormat(), this);
         getServer().getPluginManager().registerEvents(new Leave(), this);

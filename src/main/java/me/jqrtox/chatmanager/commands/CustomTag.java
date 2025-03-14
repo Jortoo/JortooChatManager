@@ -40,6 +40,6 @@ public class CustomTag implements CommandExecutor {
         playerData.setTag(coloredTag);
         player.sendRichMessage(coloredTag);
 
-        return false;
+        return true;
     }
 }

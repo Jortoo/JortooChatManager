@@ -82,7 +82,7 @@ public class ChatColor implements CommandExecutor, TabCompleter {
         playerData.setChatColor(ChatColorData.colours.get(args[0]));
         player.sendRichMessage(chatColorPrefix + "Your chat color has been set to:" + playerData.getChatColor() + " This");
 
-        return false;
+        return true;
     }
 
     @Override
