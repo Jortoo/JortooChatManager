@@ -23,7 +23,7 @@ public class Join implements Listener {
             event.joinMessage(message);
             return;
         }
-        Component message = mm.deserialize("<gray>(" + Messages.essentialsToMinimessage("new!") + ") <dark_gray>(<green>✔<dark_gray>) <white><u>" + player.getName() + "</u> has joined the server");
+        Component message = mm.deserialize("<gray>(" + Messages.essentialsToMinimessage("new!") + ") <dark_gray>(<green>✔<dark_gray>) <white><u>" + player.getName() + "</u> has joined the server <gray>" );
         event.joinMessage(message);
 
     }

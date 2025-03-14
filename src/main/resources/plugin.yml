@@ -11,4 +11,9 @@ commands:
       - chatcolour
       - chatcolors
       - chatcolours
-
+  settag:
+    aliases:
+      - tagset
+  erasetag:
+    aliases:
+      - tagerase

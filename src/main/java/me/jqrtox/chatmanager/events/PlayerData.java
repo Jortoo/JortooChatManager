@@ -3,6 +3,7 @@ package me.jqrtox.chatmanager.events;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.jqrtox.chatmanager.ChatManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import poa.poalib.yml.PoaYaml;
 
@@ -23,7 +24,7 @@ public class PlayerData {
 
         Bukkit.getScheduler().runTaskTimer(ChatManager.plugin, () -> {
             for (PlayerData value : dataMap.values()) {
-                value.saveChatColor();
+                value.save();
             }
         }, 12000L, 12000L);
     }
@@ -43,6 +44,8 @@ public class PlayerData {
     private UUID uuid;
     @Getter
     private String chatColor = "<gray>";
+    @Getter
+    private String tag = null;
 
     private File file;
     private PoaYaml yml;
@@ -58,6 +61,11 @@ public class PlayerData {
         if (yml.isSet("chatcolor")) {
             this.chatColor = yml.getString("chatcolor");
         }
+        if (yml.isSet("tag")) {
+            this.tag = yml.getString("tag");
+        }
+
+
         dataMap.put(uuid, this);
     }
 
@@ -65,13 +73,19 @@ public class PlayerData {
         this.chatColor = chatColor;
         yml.set("chatcolor", chatColor);
     }
+    public void setTag(String tag) {
+        this.tag = tag;
+        yml.set("tag", tag);
+    }
 
     @SneakyThrows
-    public void saveChatColor() {
+    public void save() {
         this.yml.save(file);
     }
 
-    public void unloadChatColor() {
+
+    public void unload() {
         dataMap.remove(uuid);
     }
+
 }

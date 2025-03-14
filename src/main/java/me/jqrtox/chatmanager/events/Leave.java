@@ -18,8 +18,8 @@ public class Leave implements Listener {
 
         if (playerData == null) return;
 
-        playerData.saveChatColor();
-        playerData.unloadChatColor();
+        playerData.save();
+        playerData.unload();
 
     }
 
