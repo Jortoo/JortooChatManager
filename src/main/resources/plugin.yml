@@ -12,8 +12,14 @@ commands:
       - chatcolors
       - chatcolours
   settag:
+    permission: rank.settag
     aliases:
       - tagset
   erasetag:
+    permission: rank.erasetag
     aliases:
       - tagerase
+  staffchat:
+    permission: staff.chat
+    aliases:
+      - sc

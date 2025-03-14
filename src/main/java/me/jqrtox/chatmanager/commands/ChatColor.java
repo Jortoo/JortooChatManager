@@ -42,8 +42,16 @@ public class ChatColor implements CommandExecutor, TabCompleter {
 
                 String colorCode = entry.getValue();
                 String colorName = entry.getKey();
+                String permissionSymbols;
 
-                Component component = mm.deserialize("<dark_gray> - " + colorCode + colorName + " <gray>(" + Messages.essentialsToMinimessage("click!") + ")")
+                if (player.hasPermission("chatcolor." + entry.getKey())) {
+                    permissionSymbols = "<green> ● ";
+                }
+                else {
+                    permissionSymbols = "<red> ● ";
+                }
+
+                Component component = mm.deserialize(permissionSymbols + " " + colorCode + colorName + " <gray>(" + Messages.essentialsToMinimessage("click!") + ")")
                         .clickEvent(ClickEvent.runCommand("/chatcolor " + colorName))
                         .hoverEvent(HoverEvent.showText(Component.text("Click to select this chat color")));
 
@@ -57,6 +65,10 @@ public class ChatColor implements CommandExecutor, TabCompleter {
 
         if (!ChatColorData.colours.containsKey(chatColor)) {
             player.sendRichMessage("<red>This chat color does not exist!");
+            return false;
+        }
+        if (!player.hasPermission("chatcolor." + args[0])) {
+            player.sendRichMessage("<red>You do not have the required permission");
             return false;
         }
 

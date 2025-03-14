@@ -1,9 +1,6 @@
 package me.jqrtox.chatmanager;
 
-import me.jqrtox.chatmanager.commands.ChatColor;
-import me.jqrtox.chatmanager.commands.CustomTag;
-import me.jqrtox.chatmanager.commands.EraseTag;
-import me.jqrtox.chatmanager.commands.MessageCommand;
+import me.jqrtox.chatmanager.commands.*;
 import me.jqrtox.chatmanager.data.ChatColorData;
 import me.jqrtox.chatmanager.events.ChatFormat;
 import me.jqrtox.chatmanager.events.Join;
@@ -30,6 +27,7 @@ public final class ChatManager extends JavaPlugin {
         getCommand("chatcolor").setExecutor(new ChatColor());
         getCommand("settag").setExecutor(new CustomTag());
         getCommand("erasetag").setExecutor(new EraseTag());
+        getCommand("staffchat").setExecutor(new StaffChat());
 
         getServer().getPluginManager().registerEvents(new ChatFormat(), this);
         getServer().getPluginManager().registerEvents(new Leave(), this);

@@ -1,6 +1,7 @@
 package me.jqrtox.chatmanager.events;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.jqrtox.chatmanager.commands.StaffChat;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -21,6 +22,17 @@ public class ChatFormat implements Listener {
         String prefix = LuckPerm.getPrefix(player);
         String tag = null;
 
+        if (StaffChat.staffChatToggled.contains(player.getUniqueId())) {
+
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                if (onlinePlayer.hasPermission("staff.chat")) {
+                    onlinePlayer.sendRichMessage(StaffChat.staffChatPrefix + "<yellow>" + player.getName() + ": " + "<white>" + MiniMessage.miniMessage().serialize(event.message()));
+                }
+            }
+            event.setCancelled(true);
+            return;
+
+        }
         if (prefix == null) {
             prefix = "";
         }
