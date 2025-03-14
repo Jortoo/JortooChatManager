@@ -44,11 +44,11 @@ public class ChatFormat implements Listener {
         if (playerData.getTag() != null) {
             String getTag = playerData.getTag();
             tag = "<dark_gray>[" + Messages.essentialsToMinimessage(getTag) + "<reset><dark_gray>]";
-            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " " + tag + " <dark_gray>> " + chatColor + "<message>", Placeholder.unparsed("message", serialize)));
+            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " " + tag + " <gray>▸ " + chatColor + "<message>", Placeholder.unparsed("message", serialize)));
 
         }
         else {
-            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " <dark_gray>> " + chatColor + "<message>", Placeholder.unparsed("message", serialize)));
+            event.message(MiniMessage.miniMessage().deserialize(prefix + "<white>" + player.getName() + " <gray>▸ " + chatColor + "<message>", Placeholder.unparsed("message", serialize)));
         }
 
         event.renderer((sender, displayName, inputMessage, viewingPlayer) -> event.message());

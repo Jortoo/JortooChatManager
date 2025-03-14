@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatColor implements CommandExecutor, TabCompleter {
+
+    public static String chatColorPrefix = "<dark_gray>[<dark_purple><bold>CHATCOLORS</bold><dark_gray>] <gray>▸<white> ";
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
 
@@ -28,7 +31,7 @@ public class ChatColor implements CommandExecutor, TabCompleter {
             return false;
         }
         if (args.length < 1) {
-            player.sendRichMessage("<red>/Chatcolor <argument 1>");
+            player.sendRichMessage(chatColorPrefix + "/chatcolor <color>");
             return false;
         }
 
@@ -36,7 +39,7 @@ public class ChatColor implements CommandExecutor, TabCompleter {
 
         if (args[0].equalsIgnoreCase("Colors") || args[0].equalsIgnoreCase("Colours")) {
 
-            player.sendRichMessage("<dark_purple><bold>Chatcolors:<reset>");
+            player.sendRichMessage(" <dark_gray>[<dark_purple><bold>Chatcolors:<reset><dark_gray>]\n");
 
             for (Map.Entry<String, String> entry : ChatColorData.colours.entrySet()) {
 
@@ -51,30 +54,33 @@ public class ChatColor implements CommandExecutor, TabCompleter {
                     permissionSymbols = "<red> ● ";
                 }
 
-                Component component = mm.deserialize(permissionSymbols + " " + colorCode + colorName + " <gray>(" + Messages.essentialsToMinimessage("click!") + ")")
+                Component component = mm.deserialize("<dark_gray> ▸" + permissionSymbols + " " + colorCode + colorName + " <gray>(" + Messages.essentialsToMinimessage("click!") + ")")
                         .clickEvent(ClickEvent.runCommand("/chatcolor " + colorName))
                         .hoverEvent(HoverEvent.showText(Component.text("Click to select this chat color")));
 
                 player.sendMessage(component);
 
             }
+
+            player.sendRichMessage(" ");
+
             return false;
         }
 
         String chatColor = args[0];
 
         if (!ChatColorData.colours.containsKey(chatColor)) {
-            player.sendRichMessage("<red>This chat color does not exist!");
+            player.sendRichMessage(chatColorPrefix + "This chat color does not exist!");
             return false;
         }
         if (!player.hasPermission("chatcolor." + args[0])) {
-            player.sendRichMessage("<red>You do not have the required permission");
+            player.sendRichMessage(chatColorPrefix + "You do not have the required permission");
             return false;
         }
 
         PlayerData playerData = PlayerData.getPlayerData(player.getUniqueId(), true);
         playerData.setChatColor(ChatColorData.colours.get(args[0]));
-        player.sendRichMessage("<green> Your chat color has been set to:" + playerData.getChatColor() + " This");
+        player.sendRichMessage(chatColorPrefix + "Your chat color has been set to:" + playerData.getChatColor() + " This");
 
         return false;
     }
