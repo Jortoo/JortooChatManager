@@ -2,10 +2,8 @@ package me.jqrtox.chatmanager;
 
 import me.jqrtox.chatmanager.commands.*;
 import me.jqrtox.chatmanager.data.ChatColorData;
-import me.jqrtox.chatmanager.events.ChatFormat;
-import me.jqrtox.chatmanager.events.Join;
-import me.jqrtox.chatmanager.events.Leave;
-import me.jqrtox.chatmanager.events.PlayerData;
+import me.jqrtox.chatmanager.events.*;
+import me.jqrtox.chatmanager.inventories.ChatColorMenu;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -32,6 +30,7 @@ public final class ChatManager extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatFormat(), this);
         getServer().getPluginManager().registerEvents(new Leave(), this);
         getServer().getPluginManager().registerEvents(new Join(), this);
+        getServer().getPluginManager().registerEvents(new ChatColorMenuClick(), this);
 
         ChatColorData.loadColours();
     }

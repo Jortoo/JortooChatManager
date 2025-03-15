@@ -27,3 +27,6 @@ commands:
     permission: admin.chat
     aliases:
       - ac
+  testinventory:
+    permission: admin.testinventory
+
